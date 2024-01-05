@@ -13,7 +13,7 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Global variable to store audio data
-audio = []
+# audio = []
 
 # Adjectives to generate random names for voices
 adjectives = ["beautiful", "sad", "mystical", "serene", "whispering", "gentle", "melancholic"]
@@ -21,9 +21,9 @@ nouns = ["sea", "love", "dreams", "song", "rain", "sunrise", "silence", "echo"]
 
 #initializing pytts for text to speech output
 engine = pyttsx3.init()
-engine.setProperty('rate', 185)
 
-pizza_assistant = PapaJhonsAssistant(openai.api_key, assistant_id)
+# Set speech speed rate 
+engine.setProperty('rate', 185)
 
 def change_voice(engine, language, gender='VoiceGenderFemale'):
     for voice in engine.getProperty('voices'):
@@ -49,9 +49,9 @@ def new_record_audio():
     myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=1,blocking=True)
     sd.wait()  # Wait until recording is finished
     audio_name = generate_random_name()
-    write(f'./{audio_name}.wav', fs, myrecording)  # Save as WAV file 
+    write(f'./voices/{audio_name}.wav', fs, myrecording)  # Save as WAV file 
     print("Recording stopped.")
-    return f'./{audio_name}.wav'
+    return f'./voices/{audio_name}.wav'
     
 def speech_to_text(audio_path):
     print ("entered transcribe", "./"+audio_path)
@@ -68,7 +68,7 @@ def text_to_speech(response):
 
 
 def openai_chat_send(transcript):
-    
+
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": transcript}
@@ -115,6 +115,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#Replace "YOUR_OPENAI_API_KEY" with your actual OpenAI API key. Run the script, and it will start recording your voice input. Press the 's' key when you're #done speaking to stop the recording and transcribe the audio using OpenAI's Whisper API. The transcribed text will be displayed in the console.
-# https://medium.com/@sangeeth123sj/create-an-ai-voice-assistant-using-python-whisper-ai-and-openai-api-b9814bbfd8e6
