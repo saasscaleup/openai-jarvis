@@ -26,12 +26,16 @@ engine = pyttsx3.init()
 engine.setProperty('rate', 185)
 
 def change_voice(engine, language, gender='VoiceGenderFemale'):
-    for voice in engine.getProperty('voices'):
-        if language in voice.languages and gender == voice.gender:
-            engine.setProperty('voice', voice.id)
-            return True
 
-    raise RuntimeError("Language '{}' for gender '{}' not found".format(language, gender))
+    try:
+        for voice in engine.getProperty('voices'):
+            if language in voice.languages and gender == voice.gender:
+                engine.setProperty('voice', voice.id)
+                return True
+
+        raise RuntimeError("Language '{}' for gender '{}' not found".format(language, gender))
+    except:
+        print("Language not found")
 
 change_voice(engine, "en_US", "VoiceGenderFemale")
 
